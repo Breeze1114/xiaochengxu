@@ -1,0 +1,43 @@
+<!--miniprogram/pages/workDetail/workDetail.wxml-->
+<view class='work-info'>
+  <text>当事人基本资料</text>
+  <view class='name' style='flex'>
+    <label>名称:</label>
+    <text>{{workInfo.ep_name}}</text>
+  </view>
+  <view class='liaison-name' style='flex'>
+    <label>法定代表人:</label>
+    <text>{{workInfo.liaison_name}}</text>
+  </view>
+  <view class='ep-phone' style='flex'>
+    <label>联系电话:</label>
+    <text>{{workInfo.ep_phone}}</text>
+  </view>
+  <view class='business-address' style='flex'>
+    <label>地址:</label>
+    <text>{{workInfo.business_address}}</text>
+  </view>
+</view>
+<view class='check-users-info'>
+  <text>执法人员</text>
+  <view class='user-name' style='flex'>
+    <label>执法人员:</label>
+    <view wx:for="{{workInfo.check_users}}" wx:for-item = "item" style='flex' flex-wrap='nowrap'>
+      <text>{{item.user_name}};</text>
+    </view>
+  </view>
+  <view class='law-number' style='flex' flex-wrap='nowrap'>
+    <label>执法编号:</label>
+    <view wx:for="{{workInfo.check_users}}" wx:for-item = "item" style='flex' flex-wrap='nowrap'>
+      <text>{{item.law_number}};</text>
+    </view>
+  </view>
+</view>
+<view class='check-entry'>
+  <label>检查录入</label>
+  <view class='check-date'style='flex'>
+    <picker mode='date' fields='day' bindchange='showDate' disabled='{{date.disabled}}'>
+      检查日期：{{date.value}}
+    </picker>
+  </view>
+</view>

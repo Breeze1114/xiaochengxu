@@ -1,0 +1,19 @@
+<!--miniprogram/pages/login/login.wxml-->
+<view class='container'>
+ <view class='header'>
+  <text>双随机登录</text>
+ </view>
+ <form bindsubmit='fromSubmit'>
+  <view class='section'>
+   <text>用户名:</text>
+   <input type='text' placeholder='请输入用户名' name='userName'/>
+  </view>
+  <view class='section'>
+    <text>密码:</text>
+    <input type='password' placeholder='请输入密码' name='password'/>
+  </view>
+  <view class='button'>
+    <button type='primary' formType='submit'>登录</button>
+  </view>
+ </form>
+</view>

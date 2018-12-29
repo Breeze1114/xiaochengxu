@@ -1,0 +1,52 @@
+<!--miniprogram/pages/taskList/taskList.wxml-->
+<view  class='container'>
+  <view class='page-header'>
+    <text class='page-title'>任务列表</text>
+  </view>
+  <view class='page-body'>
+    <view class='item' wx:for="{{taskList}}" wx:for-item = "item" bindtap='showWorkList' id='{{item.task_id}}'>
+      <block>
+        <view style='flex'>
+          <label for='task-code'>任务编码:
+            <text class='task-code' id='task-code'>{{item.task_code}}</text>
+          </label>
+        </view>
+        <view style='flex'>
+          <label class='title-text' for='plan-name'>计划名称:
+            <text class='title-text' id='plan-name'>{{item.plan_name}}</text>
+          </label>
+        </view>
+        <view class='flex-row'>
+          <label for='plan-code'>计划编码:
+            <text class='plan-code' id='plan-code'>{{item.plan_code}}</text>
+          </label>
+        </view>
+        <view style='flex'>
+          <label for='task-type'>任务类型:
+            <text class='task-type' id='task-type'>{{item.task_type}}</text>
+          </label>
+        </view>
+        <view style='flex'>
+          <label for='check-type'>抽查方式:
+            <text class='check-type' id='check-type'>{{item.check_type}}</text>
+          </label>
+        </view>
+        <view style='flex'>
+          <label for='create-org-name'>编制机构:
+            <text class='create-org-name' id='create-org-name'>{{item.create_org_name}}</text>
+          </label>
+        </view>
+        <view style='flex'>
+          <label for='start-date'>开始时间:
+            <text class='start-date' id='start-date'>{{item.start_date}}</text>
+          </label>
+        </view>
+        <view style='flex'>
+          <label for='end-date'>结束时间:
+            <text class='end-date' id='end-date'>{{item.end_date}}</text>
+          </label>
+        </view>
+      </block>
+    </view>
+  </view>
+</view>

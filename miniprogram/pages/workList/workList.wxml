@@ -1,0 +1,52 @@
+<!--miniprogram/pages/workList/workList.wxml-->
+<view class='container'>
+  <view class='page-header'>
+    <text class='page-title'>检查人员工作列表</text>
+  </view>
+  <view class='page-body'>
+    <block wx:for="{{workList}}" wx:for-item = "item">
+      <view class='item' bindtap='showWorkDetail' id='{{item.id}}' data-status='{{item.state}}' data-work='{{item}}'>
+        <view class='flex-row' style='display:flex' flex-wrap='nowrap'>
+            <label for='ep-no'>企业编码:
+            <text class='ep-no'>{{item.ep_no}}</text>
+            </label>
+        </view>
+        <view class='title-text' style='display:flex' flex-wrap='nowrap'>
+          <label for='ep-name'>企业名称:
+            <text class='ep-name'>{{item.ep_name}}</text>
+          </label>
+        </view>
+        <view style='flex'>
+          <label for='ep-status'>企业状态:
+            <text class='ep-status'>{{item.ep_status}}</text>
+          </label>
+        </view>
+        <view style='flex'>
+          <label for='liaison-name'>联系人:
+            <text class='liaison-name' >{{item.liaison_name}}</text>
+          </label>
+        </view>
+        <view style='flex'>
+          <label for='business-address'>企业地址:
+            <text class='business-address' >{{item.business_address}}</text>
+          </label>
+        </view>
+        <view style='flex'>
+          <label for='busi-limits'>经营范围:
+            <text class='busi-limits' >{{item.busi_limits}}</text>
+          </label>
+        </view>
+        <view style='flex'>
+          <label for='division-name'>所属地区:
+            <text class='division-name' >{{item.division_name}}</text>
+          </label>
+        </view>
+        <view style='flex' class='state'>
+          <label for='state'>抽查状态:
+            <text class='state' >{{item.state}}</text>
+          </label>
+        </view>
+      </view>
+    </block>
+  </view>
+</view>

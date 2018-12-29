@@ -1,0 +1,20 @@
+<!--miniprogram/pages/showLocationMap/showLocationMap.wxml-->
+<view class='container'>
+  <view wx:for = "{{array}}">
+    {{item}}
+  </view>
+  <view wx:if="{{name == 'tom'}}">i am tom,not jerry</view>
+  <view wx:elif="{{name == 'jerry'}}">i am jerry,not tom</view>
+  <button bindtap='helloKuGou'>hello酷狗</button>
+  <button bindtap='goodBeySon'>再见儿子</button>
+  <map markers='' longitude='113.54342' latitude='22.26666'></map>
+  <template name = "sha">
+    <view>{{firstName}} {{lastName}}</view>
+  </template>
+  <template is="sha" data="{{...staffA}}"></template>
+  <template is="sha" data="{{...staffB}}"></template>
+  <template is="sha" data="{{...staffC}}"></template>
+
+  <view id = "tap" data-hi = "wechat" bindtap='clickMe'>just funcking click me!</view>
+</view>
+

@@ -1,0 +1,10 @@
+{
+    "window": {
+      "backgroundColor": "#F6F6F6",
+      "backgroundTextStyle": "black",
+      "navigationBarBackgroundColor": "#F6F6F6",
+      "navigationBarTitleText": "双随机登录",
+      "navigationBarTextStyle": "black",
+      "onReachBottomDistance": "100px"
+    }
+}

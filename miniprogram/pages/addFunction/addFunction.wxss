@@ -1,0 +1,4 @@
+/* pages/addFunction/addFunction.wxss */
+
+@import "../../style/guide.wxss";
+@import "../index/index.wxss";
