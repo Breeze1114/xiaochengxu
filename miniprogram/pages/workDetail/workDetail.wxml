@@ -40,4 +40,34 @@
       检查日期：{{date.value}}
     </picker>
   </view>
+  <view class='' style='flex'>
+    <label>检查内容:</label>
+    <view wx:for="{{workInfo.matter}}" wx:for-item = "item">
+      <view>
+        <text>事项编码：{{item.code}}</text>
+      </view>
+      <view>
+        <text>事项名称：{{item.name}}</text>
+      </view>
+    </view>
+  </view>
+  <view class='' style='flex'>
+    <lable>主要检查情况<span style='color:red'>*</span>：</lable>
+    <textarea placeholder='请输入主要检查内容' style='border:1px solid black'></textarea>
+  </view>
+  <view class='' style='flex'>
+    <label>是否合格：
+      <checkbox value='' checked=''>合格</checkbox>
+      <checkbox value='' checked=''>不合格</checkbox>
+    </label>
+  </view>
+  <view class=''>
+    <lable>承办人意见<span style='color:red'>*</span>：</lable>
+    <view class='' wx:for='{{workInfo.matter}}' wx:for-item = 'item'>
+      <label>事项名称:{{item.name}}</label>
+      <picker mode='selector' range='[1,2,3,5]' bindchange=''>
+        请输入检查结果
+      </picker>
+    </view>
+  </view>
 </view>

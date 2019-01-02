@@ -13,8 +13,7 @@ Page({
     date:{
       value:'',
       disabled:false
-    },
-    dateFlage:false,
+    }
   },
 
   /**
@@ -42,7 +41,6 @@ Page({
       dataType: 'json',
       responseType: 'text',
       success: function(res) {
-        console.log(res);
         that.data.workInfo = res.data.data;
         that.setData({
           workResult: res.data.data
@@ -54,7 +52,6 @@ Page({
               value : checkDate,
               disabled : true
             },
-            dateFlage: true
           })
         }
       },
