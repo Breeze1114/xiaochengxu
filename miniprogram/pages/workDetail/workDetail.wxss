@@ -1,1 +1,37 @@
 /* miniprogram/pages/workDetail/workDetail.wxss */
+.button-sp-area{
+    margin: 0 auto;
+    padding-top: 15px;
+    width: 90%;
+    padding-left: 45px;
+}
+.mini-btn{
+    margin-right: 50px;
+}
+
+.page-body {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+}
+.item {
+  padding: 5rpx 40rpx;
+  font-size: 32rpx;
+  border-bottom: 0rpx solid #7c7b7b;
+  background-color:  rgb(247, 247, 247);
+}
+.item .title-text {
+  font-size: 35rpx;
+  font-weight:bold;
+  color: #0f0e0e
+}
+
+.item .item-title {
+  font-weight:bold;
+  color: #0f0e0e
+}
+
+.picker {
+  border: 1rpx solid grey;
+  border-radius:4px;
+}

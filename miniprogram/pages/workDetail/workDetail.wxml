@@ -1,73 +1,95 @@
 <!--miniprogram/pages/workDetail/workDetail.wxml-->
-<view class='work-info'>
-  <text>当事人基本资料</text>
-  <view class='name' style='flex'>
-    <label>名称:</label>
-    <text>{{workInfo.ep_name}}</text>
-  </view>
-  <view class='liaison-name' style='flex'>
-    <label>法定代表人:</label>
-    <text>{{workInfo.liaison_name}}</text>
-  </view>
-  <view class='ep-phone' style='flex'>
-    <label>联系电话:</label>
-    <text>{{workInfo.ep_phone}}</text>
-  </view>
-  <view class='business-address' style='flex'>
-    <label>地址:</label>
-    <text>{{workInfo.business_address}}</text>
-  </view>
-</view>
-<view class='check-users-info'>
-  <text>执法人员</text>
-  <view class='user-name' style='flex'>
-    <label>执法人员:</label>
-    <view wx:for="{{workInfo.check_users}}" wx:for-item = "item" style='flex' flex-wrap='nowrap'>
-      <text>{{item.user_name}};</text>
-    </view>
-  </view>
-  <view class='law-number' style='flex' flex-wrap='nowrap'>
-    <label>执法编号:</label>
-    <view wx:for="{{workInfo.check_users}}" wx:for-item = "item" style='flex' flex-wrap='nowrap'>
-      <text>{{item.law_number}};</text>
-    </view>
-  </view>
-</view>
-<view class='check-entry'>
-  <label>检查录入</label>
-  <view class='check-date'style='flex'>
-    <picker mode='date' fields='day' bindchange='showDate' disabled='{{date.disabled}}'>
-      检查日期：{{date.value}}
-    </picker>
-  </view>
-  <view class='' style='flex'>
-    <label>检查内容:</label>
-    <view wx:for="{{workInfo.matter}}" wx:for-item = "item">
-      <view>
-        <text>事项编码：{{item.code}}</text>
+<view class='page'>
+  <view class='page-body'>
+    <view class='item work-info'>
+      <text class='title-text'>当事人基本资料</text>
+      <view class='name' style='flex'>
+        <label>名称:</label>
+        <text>{{workInfo.ep_name}}</text>
       </view>
-      <view>
-        <text>事项名称：{{item.name}}</text>
+      <view class='liaison-name' style='flex'>
+        <label>法定代表人:</label>
+        <text>{{workInfo.liaison_name}}</text>
+      </view>
+      <view class='ep-phone' style='flex'>
+        <label>联系电话:</label>
+        <text>{{workInfo.ep_phone}}</text>
+      </view>
+      <view class='business-address' style='flex'>
+        <label>地址:</label>
+        <text>{{workInfo.business_address}}</text>
       </view>
     </view>
-  </view>
-  <view class='' style='flex'>
-    <lable>主要检查情况<span style='color:red'>*</span>：</lable>
-    <textarea placeholder='请输入主要检查内容' style='border:1px solid black'></textarea>
-  </view>
-  <view class='' style='flex'>
-    <label>是否合格：
-      <checkbox value='' checked=''>合格</checkbox>
-      <checkbox value='' checked=''>不合格</checkbox>
-    </label>
-  </view>
-  <view class=''>
-    <lable>承办人意见<span style='color:red'>*</span>：</lable>
-    <view class='' wx:for='{{workInfo.matter}}' wx:for-item = 'item'>
-      <label>事项名称:{{item.name}}</label>
-      <picker mode='selector' range='[1,2,3,5]' bindchange=''>
-        请输入检查结果
-      </picker>
+    <view class='item check-users-info'>
+      <text class='title-text'>执法人员</text>
+      <view class='user-name' style='flex'>
+        <label>执法人员:</label>
+        <view wx:for="{{workInfo.check_users}}" wx:for-item="item" style='flex' flex-wrap='nowrap'>
+          <text>{{item.user_name}};</text>
+        </view>
+      </view>
+      <view class='law-number' style='flex' flex-wrap='nowrap'>
+        <label>执法编号:</label>
+        <view wx:for="{{workInfo.check_users}}" wx:for-item="item" style='flex' flex-wrap='nowrap'>
+          <text>{{item.law_number}};</text>
+        </view>
+      </view>
+    </view>
+    <view class='item check-entry'>
+      <label class='title-text'>检查录入</label>
+      <view class='check-date' style='flex'>
+        <picker mode='date' fields='day' bindchange='showDate' disabled='{{date.disabled}}'>
+          <view class='item-title'>检查日期：{{date.value}}</view>
+        </picker>
+      </view>
+      <view class='' style='flex'>
+        <label class='item-title'>检查内容:</label>
+        <view wx:for="{{workInfo.matter}}" wx:for-item="item">
+          <view>
+            <text>事项编码：{{item.code}}</text>
+          </view>
+          <view>
+            <text>事项名称：{{item.name}}</text>
+          </view>
+        </view>
+      </view>
+      <view class='' style='flex'>
+        <lable class='item-title'>主要检查情况
+          <span style='color:red'>*</span>：</lable>
+        <textarea placeholder='请输入主要检查内容' style='border:1px solid black'></textarea>
+      </view>
+      <view class='' style='flex'>
+        <label>是否合格：
+          <checkbox value='' checked=''>合格</checkbox>
+          <checkbox value='' checked=''>不合格</checkbox>
+        </label>
+      </view>
+      <view class=''>
+        <lable class='item-title'>承办人意见
+          <span style='color:red'>*</span>：</lable>
+        <view class='' wx:for='{{workInfo.matter}}' wx:for-item='item'>
+          <label>事项名称:{{item.name}}</label>
+          <picker mode='selector' value='0' range="{{list}}" range-key='result' bindchange='pickerValChange'>
+            <view class='picker'>
+              {{result}}
+            </view>
+          </picker>
+        </view>
+      </view>
+      <view class=''>
+        <label class='item-title'>选择提交审计人员
+          <span style='color: red'>*</span>:</label>
+        <picker mode='selector' value='0' range='{{leaderList}}' range-key='user_name' bindchange='auditPickerChange'>
+          <view class='picker'>
+            {{approver}}
+          </view>
+        </picker>
+      </view>
+    </view>
+    <view class='button-sp-area'>
+      <button class='weui-btn mini-btn' type='warn' size='mini'>重置</button>
+      <button class='weui-btn mini-btn' type='default' size='mini' bindtap=''>暂存</button>
+      <button class='weui-btn mini-btn' type='primary' size='mini' bindtap=''>提交</button>
     </view>
   </view>
 </view>

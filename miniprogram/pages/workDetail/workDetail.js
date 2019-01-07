@@ -13,7 +13,11 @@ Page({
     date:{
       value:'',
       disabled:false
-    }
+    },
+    list:[],
+    result:"请输入检查结果",
+    leaderList:[],
+    approver:"请选择审核人员"
   },
 
   /**
@@ -27,7 +31,7 @@ Page({
     that.setData({
       workId: options.workId,
       workInfo:work,
-    })
+    });
     if(status === '已提交' || status === '已完成'){
       jumpUrl = 'http://10.1.40.150:3080/api/app/checkUser/work/' + that.data.workId + '/info';
     }else{
@@ -43,7 +47,8 @@ Page({
       success: function(res) {
         that.data.workInfo = res.data.data;
         that.setData({
-          workResult: res.data.data
+          workResult: res.data.data,
+          list: res.data.data.matter_check_result
         });
         var checkDate = that.data.workResult.check_date;
         if (checkDate != null) {
@@ -57,56 +62,22 @@ Page({
       },
       fail: function(res) {},
       complete: function(res) {},
-    })
-  },
-
-  /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
-  onReady: function () {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面显示
-   */
-  onShow: function () {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面隐藏
-   */
-  onHide: function () {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面卸载
-   */
-  onUnload: function () {
-
-  },
-
-  /**
-   * 页面相关事件处理函数--监听用户下拉动作
-   */
-  onPullDownRefresh: function () {
-
-  },
-
-  /**
-   * 页面上拉触底事件的处理函数
-   */
-  onReachBottom: function () {
-
-  },
-
-  /**
-   * 用户点击右上角分享
-   */
-  onShareAppMessage: function () {
-
+    });
+    wx.request({
+      url: 'http://10.1.40.150:3080/api/app/org/getAuditUserList',
+      data: '',
+      header: { 'Authorization': 'Bearer ' + app.globalData.token },
+      method: 'GET',
+      dataType: 'json',
+      responseType: 'text',
+      success: function (res) {
+        that.setData({
+          leaderList: res.data.data
+        })
+      },
+      fail: function (res) { },
+      complete: function (res) { },
+    });
   },
 
   showDate: function(e){
@@ -114,6 +85,19 @@ Page({
     that.setData({
       date: e.detail.value
     })
-    }
-  
+  },
+
+  pickerValChange: function(e){
+    var that =this;
+    that.setData({
+      result: that.data.list[e.detail.value].result
+    })
+  },
+
+  auditPickerChange: function(e){
+    var that = this;
+    that.setData({
+      approver: that.data.leaderList[e.detail.value].user_name
+    })
+  }
 })
