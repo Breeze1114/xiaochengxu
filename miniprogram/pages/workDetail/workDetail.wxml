@@ -69,9 +69,9 @@
           <span style='color:red'>*</span>：</lable>
         <view class='' wx:for='{{workInfo.matter}}' wx:for-item='item'>
           <label>事项名称:{{item.name}}</label>
-          <picker mode='selector' value='0' range="{{list}}" bindchange='pickerValChange'>
+          <picker mode='selector' value='{{listIndex}}' range="{{list}}" data-index='{{index}}' bindchange='pickerValChange'>
             <view class='picker'>
-              {{result}}
+              {{safeList[index]}}
             </view>
           </picker>
         </view>
