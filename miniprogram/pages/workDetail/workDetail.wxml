@@ -22,15 +22,15 @@
     </view>
     <view class='item check-users-info'>
       <text class='title-text'>执法人员</text>
-      <view class='user-name' style='flex'>
-        <label>执法人员:</label>
-        <view wx:for="{{workInfo.check_users}}" wx:for-item="item" style='flex' flex-wrap='nowrap'>
+      <view class='user'>
+        <view class='info'>执法人员：</view>
+        <view wx:for="{{workInfo.check_users}}" wx:for-item="item" class='info'>
           <text>{{item.user_name}};</text>
         </view>
       </view>
-      <view class='law-number' style='flex' flex-wrap='nowrap'>
-        <label>执法编号:</label>
-        <view wx:for="{{workInfo.check_users}}" wx:for-item="item" style='flex' flex-wrap='nowrap'>
+      <view class='user'>
+        <view class='info'>执法编号：</view>
+        <view wx:for="{{workInfo.check_users}}" wx:for-item="item" class='info'>
           <text>{{item.law_number}};</text>
         </view>
       </view>
@@ -56,7 +56,7 @@
       <view class='' style='flex'>
         <lable class='item-title'>主要检查情况
           <span style='color:red'>*</span>：</lable>
-        <textarea placeholder='请输入主要检查内容' style='border:1px solid black'></textarea>
+        <textarea placeholder='请输入主要检查内容' class='text-area'></textarea>
       </view>
       <view class='' style='flex'>
         <label>是否合格：
@@ -69,7 +69,7 @@
           <span style='color:red'>*</span>：</lable>
         <view class='' wx:for='{{workInfo.matter}}' wx:for-item='item'>
           <label>事项名称:{{item.name}}</label>
-          <picker mode='selector' value='0' range="{{list}}" range-key='result' bindchange='pickerValChange'>
+          <picker mode='selector' value='0' range="{{list}}" bindchange='pickerValChange'>
             <view class='picker'>
               {{result}}
             </view>

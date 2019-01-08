@@ -26,6 +26,15 @@
   color: #0f0e0e
 }
 
+.item .user {
+  width: 78%;
+}
+
+.item .user .info {
+  float: left;
+}
+
+
 .item .item-title {
   font-weight:bold;
   color: #0f0e0e
@@ -34,4 +43,10 @@
 .picker {
   border: 1rpx solid grey;
   border-radius:4px;
+}
+
+.text-area {
+  border: 1rpx solid grey;
+  border-radius:4px;
+  width: 100%;
 }

@@ -47,8 +47,7 @@ Page({
       success: function(res) {
         that.data.workInfo = res.data.data;
         that.setData({
-          workResult: res.data.data,
-          list: res.data.data.matter_check_result
+          workResult: res.data.data
         });
         var checkDate = that.data.workResult.check_date;
         if (checkDate != null) {
@@ -78,6 +77,21 @@ Page({
       fail: function (res) { },
       complete: function (res) { },
     });
+    wx.request({
+      url: 'http://10.1.40.150:3080/api/app/resultNameList',
+      data: '',
+      header: { 'Authorization': 'Bearer ' + app.globalData.token },
+      method: 'GET',
+      dataType: 'json',
+      responseType: 'text',
+      success: function (res) {
+        that.setData({
+          list: res.data.data
+        })
+      },
+      fail: function (res) { },
+      complete: function (res) { },
+    });
   },
 
   showDate: function(e){
@@ -90,7 +104,7 @@ Page({
   pickerValChange: function(e){
     var that =this;
     that.setData({
-      result: that.data.list[e.detail.value].result
+      result: that.data.list[e.detail.value]
     })
   },
 
