@@ -37,12 +37,12 @@
     </view>
     <view class='item check-entry'>
       <label class='title-text'>检查录入</label>
-      <view class='check-date' style='flex'>
+      <view class='item-enter'>
         <picker mode='date' fields='day' bindchange='showDate' disabled='{{date.disabled}}'>
           <view class='item-title'>检查日期：{{date.value}}</view>
         </picker>
       </view>
-      <view class='' style='flex'>
+      <view class='item-enter'>
         <label class='item-title'>检查内容:</label>
         <view wx:for="{{workInfo.matter}}" wx:for-item="item">
           <view>
@@ -53,35 +53,40 @@
           </view>
         </view>
       </view>
-      <view class='' style='flex'>
+      <view class='item-enter'>
         <lable class='item-title'>主要检查情况
           <span style='color:red'>*</span>：</lable>
         <textarea placeholder='请输入主要检查内容' class='text-area'></textarea>
       </view>
-      <view class='' style='flex'>
-        <label>是否合格：
-          <checkbox value='' checked=''>合格</checkbox>
-          <checkbox value='' checked=''>不合格</checkbox>
-        </label>
+      <view class='check-group'>
+        <view class='check-box item-title'>是否合格：</view>
+        <view class='check-box'>
+          <checkbox-group>
+            <checkbox disabled='{{disabled}}' value='合格' checked=''>合格</checkbox>
+            <checkbox disabled='{{disabled}}' value='不合格' checked=''>不合格</checkbox>
+          </checkbox-group>
+        </view>
       </view>
-      <view class=''>
+      <view class='item-enter'>
         <lable class='item-title'>承办人意见
           <span style='color:red'>*</span>：</lable>
         <view class='' wx:for='{{workInfo.matter}}' wx:for-item='item'>
           <label>事项名称:{{item.name}}</label>
-          <picker mode='selector' value='{{listIndex}}' range="{{list}}" data-index='{{index}}' bindchange='pickerValChange'>
+          <picker mode='selector' value='{{listIndex}}' range="{{list}}" 
+            disabled='{{disabled}}' data-index='{{index}}' bindchange='pickerValChange'>
             <view class='picker'>
-              {{safeList[index]}}
+              <view class='picker-text'>{{safeList[index]}}</view>
             </view>
           </picker>
         </view>
       </view>
-      <view class=''>
+      <view class='item-enter'>
         <label class='item-title'>选择提交审计人员
           <span style='color: red'>*</span>:</label>
-        <picker mode='selector' value='0' range='{{leaderList}}' range-key='user_name' bindchange='auditPickerChange'>
+        <picker mode='selector' value='0' range='{{leaderList}}' range-key='user_name' 
+        disabled='{{disabled}}' bindchange='auditPickerChange'>
           <view class='picker'>
-            {{approver}}
+            <view class='picker-text'>{{approver}}</view>
           </view>
         </picker>
       </view>

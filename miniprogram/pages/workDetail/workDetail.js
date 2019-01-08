@@ -19,7 +19,8 @@ Page({
     listIndex: 0,
     safeList: [],//作为中间量的结果list
     leaderList: [],
-    approver: "请选择审核人员"
+    approver: "请选择审核人员",
+    disabled: false,//选择器是否可用
   },
 
   /**
@@ -53,13 +54,22 @@ Page({
         that.setData({
           workResult: res.data.data
         });
-        var checkDate = that.data.workResult.check_date;
-        if (checkDate != null) {
+        if(status === '已提交' || status === '已完成'){
+          var checkResult = that.data.workResult.matter_check_result;
+          if (checkResult != null) {
+            var resultList = [];
+            for(var i= 0;i<checkResult.length;i++){
+              resultList.push(checkResult[i].result);
+            }
+          }
           that.setData({
             date: {
-              value: checkDate,
+              value: that.data.workResult.check_date,
               disabled: true
             },
+            disabled: true,
+            safeList: resultList,
+            approver: res.data.data.audit_user_name
           })
         }
       },
