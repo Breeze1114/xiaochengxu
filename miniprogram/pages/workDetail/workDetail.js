@@ -15,12 +15,17 @@ Page({
       disabled: false
     },
     list: [],
-    index: 0,//数组循环的下标
+    index: 0, //数组循环的下标
     listIndex: 0,
-    safeList: [],//作为中间量的结果list
+    safeList: [], //作为中间量的结果list
     leaderList: [],
     approver: "请选择审核人员",
-    disabled: false,//选择器是否可用
+    approverId: '', //审批人id
+    disabled: false, //选择器是否可用
+    checked: true, //是否选中
+    placeholder: '请输入主要检查内容', //提示内容
+    checkResult: '', //检查结果
+    radioValue: '合格', //单选框默认值
   },
 
   /**
@@ -50,15 +55,22 @@ Page({
       dataType: 'json',
       responseType: 'text',
       success: function(res) {
-        that.data.workInfo = res.data.data;
+        console.log('检查结果', res.data.data)
         that.setData({
           workResult: res.data.data
         });
-        if(status === '已提交' || status === '已完成'){
+        if (status === '已提交' || status === '已完成') {
           var checkResult = that.data.workResult.matter_check_result;
+          var isPass = res.data.data.is_pass;
+          var checked;
+          if (isPass === '合格') {
+            checked = true;
+          } else if (isPass === '不合格') {
+            checked = false;
+          }
           if (checkResult != null) {
             var resultList = [];
-            for(var i= 0;i<checkResult.length;i++){
+            for (var i = 0; i < checkResult.length; i++) {
               resultList.push(checkResult[i].result);
             }
           }
@@ -69,8 +81,13 @@ Page({
             },
             disabled: true,
             safeList: resultList,
-            approver: res.data.data.audit_user_name
+            approver: res.data.data.audit_user_name,
+            checked: checked,
+            checkResult: res.data.data.check_result,
+            placeholder: '', //提示文本清空
           })
+        } else if (status === '暂存') {
+
         }
       },
       fail: function(res) {},
@@ -124,7 +141,9 @@ Page({
   showDate: function(e) {
     var that = this;
     that.setData({
-      date: e.detail.value
+      date: {
+        value: e.detail.value
+      }
     })
   },
 
@@ -144,7 +163,165 @@ Page({
   auditPickerChange: function(e) {
     var that = this;
     that.setData({
-      approver: that.data.leaderList[e.detail.value].user_name
+      approver: that.data.leaderList[e.detail.value].user_name,
+      approverId: that.data.leaderList[e.detail.value].user_id
+    })
+  },
+
+  checkChange: function(e) {
+    var that = this;
+    that.setData({
+      radioValue: e.detail.value
+    })
+  },
+
+  saveEntry: function(e) {
+    var that = this;
+    wx.setStorage({ //检查结果明细
+      key: 'checkResult',
+      data: that.data.checkResult,
+      success: function(res) {},
+      fail: function(res) {},
+      complete: function(res) {},
+    })
+    wx.setStorage({ //检查日期
+      key: 'checkDate',
+      data: that.data.date.value,
+      success: function(res) {},
+      fail: function(res) {},
+      complete: function(res) {},
+    })
+    wx.setStorage({ //是够合格
+      key: 'checkValue',
+      data: that.data.radioValue,
+      success: function(res) {},
+      fail: function(res) {},
+      complete: function(res) {},
+    })
+    wx.setStorage({ //检查结果列表
+      key: 'matterResult',
+      data: that.data.safeList,
+      success: function(res) {},
+      fail: function(res) {},
+      complete: function(res) {},
+    })
+    wx.setStorage({ //审批人
+      key: 'approver',
+      data: that.data.approver,
+      success: function(res) {},
+      fail: function(res) {},
+      complete: function(res) {},
+    })
+
+    var matterCheckResultList = [];
+    var checkResult = {};
+    var list = that.data.workInfo.matter;
+    for (var i = 0; i < list.length; i++) {
+      checkResult = {
+        code: list[i].code,
+        name: list[i].name,
+        result: that.data.safeList[i],
+        law: '',
+        remark: ''
+      }
+      matterCheckResultList.push(checkResult);
+    }
+    debugger;
+    wx.request({
+      url: 'http://10.1.40.150:3080/api/app/checkUser/work/' + that.data.workId + '/submitCheckResult',
+      data: {
+        check_result: that.data.checkResult,
+        operate: '暂存',
+        check_date: that.data.date.value,
+        is_pass: that.data.radioValue,
+        audit_user_id: that.data.approverId,
+        matter_check_result: matterCheckResultList,
+
+      },
+      header: {},
+      method: 'post',
+      dataType: 'json',
+      responseType: 'text',
+      success: function(res) {},
+      fail: function(res) {},
+      complete: function(res) {},
+    })
+  },
+
+  reset: function(e) {
+
+  },
+
+  submit: function(e) {
+    console.log(e);
+  },
+
+  // uploadFile: function(e) {
+  //   var files = [];
+    
+  //   var FileSystemManager = wx.getFileSystemManager();
+  //   debugger;
+  //   wx.chooseImage({
+  //     count: 1,
+  //     sizeType: [],
+  //     sourceType: [],
+  //     success: function(res) {
+  //       files = res.tempFiles;
+  //       wx.request({
+  //         url: 'http://10.1.40.150:3080/api/app/upload/result',
+  //         data: {
+  //           files: files
+  //         },
+  //         header: {
+  //           "Content-Type": "multipart/form-data",
+  //           'Authorization': 'Bearer ' + app.globalData.token
+  //         },
+  //         method: 'POST',
+  //         dataType: 'json',
+  //         responseType: 'text',
+  //         success: function(res) {console.log('上传成功',res)},
+  //         fail: function(res) {},
+  //         complete: function(res) {},
+  //       })
+  //       wx.uploadFile({
+  //         url: 'http://10.1.40.150:3080/api/app/upload/result',
+  //         filePath: files[0].path,
+  //         name: 'file',
+  //         header: {
+  //           "Content-Type": "multipart/form-data",
+  //           'accept': 'application/json',
+  //           'Authorization': 'Bearer ' + app.globalData.token
+  //         },
+  //         formData: {},
+  //         success: function(res) {console.log(res)},
+  //         fail: function(res) {},
+  //         complete: function(res) {},
+  //       })
+  //     },
+  //     fail: function(res) {},
+  //     complete: function(res) {},
+  //   })
+  // },
+
+  gotoLocation: function(e){
+    var that = this;
+    wx.getLocation({
+      type: 'gcj02 ',
+      altitude: true,
+      success: function(res) {
+        wx.openLocation({
+          latitude: res.latitude,
+          longitude: res.longitude,
+          scale: 18,
+          name: that.data.workInfo.business_address,
+          address: that.data.workInfo.business_address,
+          success: function(res) {console.log(res)},
+          fail: function(res) {},
+          complete: function(res) {},
+        })
+      },
+      fail: function(res) {},
+      complete: function(res) {},
     })
   }
 })

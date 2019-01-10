@@ -17,7 +17,7 @@
       </view>
       <view class='business-address' style='flex'>
         <label>地址:</label>
-        <text>{{workInfo.business_address}}</text>
+        <text bindtap='gotoLocation' class='address'>{{workInfo.business_address}}</text>
       </view>
     </view>
     <view class='item check-users-info'>
@@ -35,66 +35,75 @@
         </view>
       </view>
     </view>
-    <view class='item check-entry'>
-      <label class='title-text'>检查录入</label>
-      <view class='item-enter'>
-        <picker mode='date' fields='day' bindchange='showDate' disabled='{{date.disabled}}'>
-          <view class='item-title'>检查日期：{{date.value}}</view>
-        </picker>
-      </view>
-      <view class='item-enter'>
-        <label class='item-title'>检查内容:</label>
-        <view wx:for="{{workInfo.matter}}" wx:for-item="item">
-          <view>
-            <text>事项编码：{{item.code}}</text>
-          </view>
-          <view>
-            <text>事项名称：{{item.name}}</text>
+    <form bindreset='reset' bindsubmit='submit'>
+      <view class='item check-entry'>
+        <label class='title-text'>检查录入</label>
+        <view class='item-enter'>
+          <view class='item-title item-detail'>检查日期：</view>
+          <view class='item-detail'>
+            <picker mode='date' fields='day' bindchange='showDate' disabled='{{date.disabled}}'>
+              <view name='date' class='date-picker'>{{date.value}}</view>
+            </picker>
           </view>
         </view>
-      </view>
-      <view class='item-enter'>
-        <lable class='item-title'>主要检查情况
-          <span style='color:red'>*</span>：</lable>
-        <textarea placeholder='请输入主要检查内容' class='text-area'></textarea>
-      </view>
-      <view class='check-group'>
-        <view class='check-box item-title'>是否合格：</view>
-        <view class='check-box'>
-          <checkbox-group>
-            <checkbox disabled='{{disabled}}' value='合格' checked=''>合格</checkbox>
-            <checkbox disabled='{{disabled}}' value='不合格' checked=''>不合格</checkbox>
-          </checkbox-group>
+        <view class='item-enter'>
+          <label class='item-title'>检查内容:</label>
+          <view wx:for="{{workInfo.matter}}" wx:for-item="item">
+            <view>
+              <text>事项编码：{{item.code}}</text>
+            </view>
+            <view>
+              <text>事项名称：{{item.name}}</text>
+            </view>
+          </view>
         </view>
-      </view>
-      <view class='item-enter'>
-        <lable class='item-title'>承办人意见
-          <span style='color:red'>*</span>：</lable>
-        <view class='' wx:for='{{workInfo.matter}}' wx:for-item='item'>
-          <label>事项名称:{{item.name}}</label>
-          <picker mode='selector' value='{{listIndex}}' range="{{list}}" 
-            disabled='{{disabled}}' data-index='{{index}}' bindchange='pickerValChange'>
+        <view class='item-enter'>
+          <lable class='item-title'>主要检查情况
+            <span style='color:red'>*</span>：</lable>
+          <textarea name='checkResult' placeholder='{{placeholder}}' 
+            class='text-area' disabled='{{disabled}}'>{{checkResult}}</textarea>
+        </view>
+        <view class='check-group'>
+          <view class='check-box item-title'>是否合格：</view>
+          <view class='check-box'>
+            <radio-group bindchange='checkChange' name='radioBox'>
+              <radio disabled='{{disabled}}' value='合格' checked='{{checked}}'>合格</radio>
+              <radio disabled='{{disabled}}' value='不合格' checked='{{!checked}}'>不合格</radio>
+            </radio-group>
+          </view>
+        </view>
+        <view class='item-enter'>
+          <lable class='item-title'>承办人意见
+            <span style='color:red'>*</span>：</lable>
+          <view class='' wx:for='{{workInfo.matter}}' wx:for-item='item'>
+            <label>事项名称:{{item.name}}</label>
+            <picker name='matterResult' mode='selector' value='{{listIndex}}' range="{{list}}" 
+              disabled='{{disabled}}' data-id='{{item.code}}' data-index='{{index}}' bindchange='pickerValChange'>
+              <view class='picker'>
+                <view class='picker-text'>{{safeList[index]}}</view>
+              </view>
+            </picker>
+          </view>
+        </view>
+        <view class='item-enter'>
+          <label class='item-title'>选择提交审计人员
+            <span style='color: red'>*</span>:</label>
+          <picker name='approver' mode='selector' value='0' range='{{leaderList}}' range-key='user_name' 
+          disabled='{{disabled}}' bindchange='auditPickerChange'>
             <view class='picker'>
-              <view class='picker-text'>{{safeList[index]}}</view>
+              <view class='picker-text'>{{approver}}</view>
             </view>
           </picker>
         </view>
+        <view class='item-enter'>
+          <view>检查附件：<view bindtap='uploadFile'>点击上传附件</view></view>
+        </view>
       </view>
-      <view class='item-enter'>
-        <label class='item-title'>选择提交审计人员
-          <span style='color: red'>*</span>:</label>
-        <picker mode='selector' value='0' range='{{leaderList}}' range-key='user_name' 
-        disabled='{{disabled}}' bindchange='auditPickerChange'>
-          <view class='picker'>
-            <view class='picker-text'>{{approver}}</view>
-          </view>
-        </picker>
+      <view class='button-sp-area' hidden='{{disabled}}'>
+        <button class='weui-btn mini-btn' type='warn' size='mini' form-type='reset'>重置</button>
+        <button class='weui-btn mini-btn' type='default' size='mini' bindtap='saveEntry'>暂存</button>
+        <button class='weui-btn mini-btn' type='primary' size='mini' bindtap='' form-type='submit'>提交</button>
       </view>
-    </view>
-    <view class='button-sp-area'>
-      <button class='weui-btn mini-btn' type='warn' size='mini'>重置</button>
-      <button class='weui-btn mini-btn' type='default' size='mini' bindtap=''>暂存</button>
-      <button class='weui-btn mini-btn' type='primary' size='mini' bindtap=''>提交</button>
-    </view>
+    </form>
   </view>
 </view>

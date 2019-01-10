@@ -119,6 +119,9 @@ Page({
 
   //问候语函数
   hello :function(){
+    wx.getSystemInfo({
+      success: function (res) { console.log(res) },
+    })
     this.setData({
       massage:"hello world"
     })
@@ -144,20 +147,25 @@ Page({
 
  getLocationFun : function(){
    wx.getLocation({
-     type: '',
+     type: 'gcj02 ',
      altitude: true,
-     success: function (res) { 
-       const latitude = res.latitude // 纬度
-       const longitude = res.longitude // 经度
-       console.log('纬度:'+latitude)
-       console.log('经度:' + longitude)
-       console.log(res + '调用成功')
-      },
-     fail: function (res) { console.log(res + '调用失败')},
-     complete: function (res) { console.log(res + '调用结束')},
-    
+     success: function (res) {
+       wx.openLocation({
+         latitude: res.latitude,
+         longitude: res.longitude,
+         scale: 18,
+         name: '北京理工大学珠海学院',
+         address: '广东省珠海市香洲区唐家湾镇金凤路6号',
+         success: function (res) { console.log(res) },
+         fail: function (res) { },
+         complete: function (res) { },
+       })
+     },
+     fail: function (res) { },
+     complete: function (res) { },
    })
  },
+
 
  getMapPage : function(){
    wx.navigateTo({
