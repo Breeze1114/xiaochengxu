@@ -42,7 +42,7 @@
 
  <view class='uploader'>
     <view class="uploader-text" bindtap="hello">
-      <text>问候语：{{massage}}</text>
+      <text>导航到北理工</text>
     </view>
  </view>
 
