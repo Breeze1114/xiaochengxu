@@ -95,7 +95,33 @@ Page({
             placeholder: '', //提示文本清空
           })
         } else if (status === '暂存') {
-
+          var checkResult = that.data.workResult.matter_check_result;
+          var isPass = res.data.data.is_pass;
+          var checked;
+          if (isPass === '合格') {
+            checked = true;
+          } else if (isPass === '不合格') {
+            checked = false;
+          }
+          if (checkResult != null) {
+            var resultList = [];
+            for (var i = 0; i < checkResult.length; i++) {
+              resultList.push(checkResult[i].result);
+            }
+          }
+          that.setData({
+            date: {
+              value: that.data.workResult.check_date,
+              disabled: false
+            },
+            disabled: false,
+            safeList: resultList,
+            approver: res.data.data.audit_user_name,
+            approverId: res.data.data.audit_user_id,
+            checked: checked,
+            checkResult: res.data.data.check_result,
+            placeholder: '', //提示文本清空
+          })
         }
       },
       fail: function(res) {},
@@ -185,41 +211,41 @@ Page({
 
   saveEntry: function(e) {
     var that = this;
-    wx.setStorage({ //检查结果明细
-      key: 'checkResult',
-      data: that.data.checkResult,
-      success: function(res) {},
-      fail: function(res) {},
-      complete: function(res) {},
-    })
-    wx.setStorage({ //检查日期
-      key: 'checkDate',
-      data: that.data.date.value,
-      success: function(res) {},
-      fail: function(res) {},
-      complete: function(res) {},
-    })
-    wx.setStorage({ //是够合格
-      key: 'checkValue',
-      data: that.data.radioValue,
-      success: function(res) {},
-      fail: function(res) {},
-      complete: function(res) {},
-    })
-    wx.setStorage({ //检查结果列表
-      key: 'matterResult',
-      data: that.data.safeList,
-      success: function(res) {},
-      fail: function(res) {},
-      complete: function(res) {},
-    })
-    wx.setStorage({ //审批人
-      key: 'approver',
-      data: that.data.approver,
-      success: function(res) {},
-      fail: function(res) {},
-      complete: function(res) {},
-    })
+    // wx.setStorage({ //检查结果明细
+    //   key: 'checkResult',
+    //   data: that.data.checkResult,
+    //   success: function(res) {},
+    //   fail: function(res) {},
+    //   complete: function(res) {},
+    // })
+    // wx.setStorage({ //检查日期
+    //   key: 'checkDate',
+    //   data: that.data.date.value,
+    //   success: function(res) {},
+    //   fail: function(res) {},
+    //   complete: function(res) {},
+    // })
+    // wx.setStorage({ //是够合格
+    //   key: 'checkValue',
+    //   data: that.data.radioValue,
+    //   success: function(res) {},
+    //   fail: function(res) {},
+    //   complete: function(res) {},
+    // })
+    // wx.setStorage({ //检查结果列表
+    //   key: 'matterResult',
+    //   data: that.data.safeList,
+    //   success: function(res) {},
+    //   fail: function(res) {},
+    //   complete: function(res) {},
+    // })
+    // wx.setStorage({ //审批人
+    //   key: 'approver',
+    //   data: that.data.approver,
+    //   success: function(res) {},
+    //   fail: function(res) {},
+    //   complete: function(res) {},
+    // })
 
     var matterCheckResultList = [];
     var checkResult = {};
@@ -243,14 +269,17 @@ Page({
         check_date: that.data.date.value,
         is_pass: that.data.radioValue,
         audit_user_id: that.data.approverId,
+        audit_user_name: that.data.approver,
         matter_check_result: matterCheckResultList,
-
+        files:[]
       },
-      header: {},
+      header: {
+        'Authorization': 'Bearer ' + app.globalData.token
+      },
       method: 'post',
       dataType: 'json',
       responseType: 'text',
-      success: function(res) {},
+      success: function(res) {console.log(res)},
       fail: function(res) {},
       complete: function(res) {},
     })
@@ -291,6 +320,7 @@ Page({
     })
   },
 
+  //导航方法
   gotoLocation: function(e){
     var that = this;
     //地址转坐标
@@ -320,5 +350,15 @@ Page({
         console.log(res);
       }
     })
+  },
+
+  //文本区域完成输入方法
+  endInput: function(e){
+    var that = this;
+    if(e.detail){
+      that.setData({
+        checkResult: e.detail.value
+      })
+    }
   }
 })
