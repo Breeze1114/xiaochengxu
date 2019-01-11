@@ -16,13 +16,14 @@ Page({
    */
   onLoad: function (options) {
       var that = this//搭桥，直接用this访问不了
+      var token = app.globalData.token;
       wx.request({
         url: 'http://10.1.40.150:3080/api/app/checkUser/taskList',
         data: {
           page : 1,
           rows: 10
         },
-        header: { 'Authorization': 'Bearer '+app.globalData.token },
+        header: { 'Authorization': 'Bearer ' + token },
         method: 'GET',
         dataType: 'json',
         responseType: 'text',

@@ -19,6 +19,65 @@ Page({
   },
 
   onLoad: function() {
+    //从缓存拿token，实现自动登录，过期自动清除缓存
+    wx.getStorage({
+      key: 'outTime',
+      success: function(res) {
+        var timestamp = Date.parse(new Date());
+        var timestampCache = res.data.timestampCache;
+        if((timestamp - timestampCache) > res.data.outTime){
+          console.log("过期了");
+          wx.showToast({
+            title: '登录信息已过期！请重新登录',
+            icon: '',
+            image: '',
+            duration: 1500,
+            mask: true,
+            success: function(res) {},
+            fail: function(res) {},
+            complete: function(res) {},
+          })
+          wx.removeStorage({
+            key: 'token',
+            success: function (res) { },
+            fail: function (res) { },
+            complete: function (res) { },
+          })
+          wx.removeStorage({
+            key: 'outTime',
+            success: function (res) { },
+            fail: function (res) { },
+            complete: function (res) { },
+          })
+          wx.navigateTo({
+            url: '../login/login',
+            success: function (res) { 
+              wx.hideToast();  
+            },
+            fail: function (res) { },
+            complete: function (res) { },
+          })
+        }
+      },
+      fail: function(res) {},
+      complete: function(res) {},
+    })
+    wx.getStorage({
+      key: 'token',
+      success: function (res) {
+        if (res.data) {
+          app.globalData.token = res.data;
+          wx.navigateTo({
+            url: '../taskList/taskList',
+            success: function (res) { },
+            fail: function (res) { },
+            complete: function (res) { },
+          })
+        }
+      },
+      fail: function (res) { },
+      complete: function (res) { },
+    })
     if (!wx.cloud) {
       wx.redirectTo({
         url: '../chooseLib/chooseLib',
@@ -216,11 +275,10 @@ Page({
      name: 'helloWorld',
      data: {},
      success: res => {
-       console.log('[云函数] [helloWorld] user openid: ', res.result.openid)
        app.globalData.openid = res.result.openid
        wx.navigateTo({
          url: '../login/login',
-         success: function (res) { console.log(res.result) },
+         success: function (res) {},
          fail: function (res) { },
          complete: function (res) { },
        })

@@ -13,6 +13,7 @@
 	"appid": "wxdf478ba12bcf0a00",
 	"projectname": "shuangsuiji",
 	"libVersion": "2.4.2",
+	"compileType": "miniprogram",
 	"condition": {
 		"search": {
 			"current": -1,

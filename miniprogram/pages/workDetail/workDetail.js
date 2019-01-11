@@ -264,52 +264,32 @@ Page({
     console.log(e);
   },
 
-  // uploadFile: function(e) {
-  //   var files = [];
-    
-  //   var FileSystemManager = wx.getFileSystemManager();
-  //   debugger;
-  //   wx.chooseImage({
-  //     count: 1,
-  //     sizeType: [],
-  //     sourceType: [],
-  //     success: function(res) {
-  //       files = res.tempFiles;
-  //       wx.request({
-  //         url: 'http://10.1.40.150:3080/api/app/upload/result',
-  //         data: {
-  //           files: files
-  //         },
-  //         header: {
-  //           "Content-Type": "multipart/form-data",
-  //           'Authorization': 'Bearer ' + app.globalData.token
-  //         },
-  //         method: 'POST',
-  //         dataType: 'json',
-  //         responseType: 'text',
-  //         success: function(res) {console.log('上传成功',res)},
-  //         fail: function(res) {},
-  //         complete: function(res) {},
-  //       })
-  //       wx.uploadFile({
-  //         url: 'http://10.1.40.150:3080/api/app/upload/result',
-  //         filePath: files[0].path,
-  //         name: 'file',
-  //         header: {
-  //           "Content-Type": "multipart/form-data",
-  //           'accept': 'application/json',
-  //           'Authorization': 'Bearer ' + app.globalData.token
-  //         },
-  //         formData: {},
-  //         success: function(res) {console.log(res)},
-  //         fail: function(res) {},
-  //         complete: function(res) {},
-  //       })
-  //     },
-  //     fail: function(res) {},
-  //     complete: function(res) {},
-  //   })
-  // },
+  uploadFile: function(e) {
+    wx.chooseImage({
+      count: 1,
+      sizeType: [],
+      sourceType: [],
+      success: function(res) {
+        console.log(res);
+        var filePaths = res.tempFilePaths;
+        wx.uploadFile({
+          url: 'http://10.1.40.150:3080/api/app/upload/result',
+          filePath: filePaths[0],
+          name: 'files',
+          header: {
+            "Content-Type": "multipart/form-data",
+            'Authorization': 'Bearer ' + app.globalData.token
+          },
+          success: function(res) {console.log(res)},
+          fail: function(res) {},
+          complete: function(res) {},
+        })
+
+      },
+      fail: function(res) {},
+      complete: function(res) {},
+    })
+  },
 
   gotoLocation: function(e){
     var that = this;
@@ -340,23 +320,5 @@ Page({
         console.log(res);
       }
     })
-    // wx.getLocation({
-    //   type: 'gcj02 ',
-    //   altitude: true,
-    //   success: function(res) {
-    //     wx.openLocation({
-    //       latitude: res.latitude,
-    //       longitude: res.longitude,
-    //       scale: 18,
-    //       name: that.data.workInfo.business_address,
-    //       address: that.data.workInfo.business_address,
-    //       success: function(res) {console.log(res)},
-    //       fail: function(res) {},
-    //       complete: function(res) {},
-    //     })
-    //   },
-    //   fail: function(res) {},
-    //   complete: function(res) {},
-    // })
   }
 })

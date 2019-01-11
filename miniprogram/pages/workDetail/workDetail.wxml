@@ -96,7 +96,7 @@
           </picker>
         </view>
         <view class='item-enter'>
-          <view>检查附件：<view bindtap='uploadFile'>点击上传附件</view></view>
+          <view>检查附件：<view name='file' bindtap='uploadFile'>点击上传附件</view></view>
         </view>
       </view>
       <view class='button-sp-area' hidden='{{disabled}}'>

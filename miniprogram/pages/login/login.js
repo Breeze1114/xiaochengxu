@@ -80,8 +80,25 @@ Page({
       dataType: 'json',
       responseType: 'text',
       success: function(res) {
-        console.log(res)
         app.globalData.token = res.data.token;
+        wx.setStorage({//缓存token
+          key: 'token',
+          data: res.data.token,
+          success: function(res) {},
+          fail: function(res) {},
+          complete: function(res) {},
+        })
+        var timestampCache = Date.parse(new Date());
+        wx.setStorage({//存一个过期时间
+          key: 'outTime',
+          data: {
+            timestampCache: timestampCache,
+            outTime: 1200000
+          },
+          success: function(res) {},
+          fail: function(res) {},
+          complete: function(res) {},
+        })
         wx.navigateTo({
           url: '../taskList/taskList',
           success: function (res) { },
